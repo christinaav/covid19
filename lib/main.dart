@@ -27,6 +27,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int selectitem = 1;
+  ScrollController _scrollController = new ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   // flutter defined function
   _showDialog() {
     return showDialog(
@@ -60,9 +68,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.grey,
                     height: 4.0,
                   ),
-                  Padding(
-                      padding: EdgeInsets.only(left: 30.0, right: 30.0),
-                      child: null),
+                  new Expanded(
+                      child: ListView.builder(
+                          itemCount: 15,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(
+                              title: Text('Gujarat, India'),
+                            );
+                          })),
                   InkWell(
                     child: Container(
                       padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
