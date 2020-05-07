@@ -1,10 +1,24 @@
+import 'dart:convert';
+import 'package:covid19/data.dart';
+import 'package:flutter/foundation.dart';
+import 'countryData.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_awesome_buttons/flutter_awesome_buttons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:undraw/undraw.dart';
+import 'package:http/http.dart' as http;
 
-void main() => runApp(MyApp());
+const baseUrl = "https://corona.lmao.ninja/v2/countries/";
+
+class API {
+  static Future getCountry() {
+    var url = baseUrl;
+    return http.get(url);
+  }
+}
+
+// ------------------------------------------------
 
 class MyApp extends StatelessWidget {
   @override
@@ -16,86 +30,126 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+void main() => runApp(MyApp());
 
+class MyHomePage extends StatefulWidget {
   final String title;
 
+  MyHomePage({Key key, this.title}) : super(key: key);
+
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MyHomePage createState() => _MyHomePage();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int selectitem = 1;
-  ScrollController _scrollController = new ScrollController();
+class _MyHomePage extends State<MyHomePage> {
+  int _selectedIndex = 0;
+  var countryData = List<CountryData>();
+  var state, temp;
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
+  _getCountry() {
+    API.getCountry().then((response) {
+      setState(() {
+        Iterable list = json.decode(response.body);
+        countryData = list.map((model) => CountryData.fromJson(model)).toList();
+      });
+    });
   }
 
-  // flutter defined function
+  initState() {
+    super.initState();
+    _getCountry();
+  }
+
+  _onSelected(int index) {
+    setState(() => _selectedIndex = index);
+  }
+
+// pop up con la lista dei paesi
   _showDialog() {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(30.0))),
-            contentPadding: EdgeInsets.only(top: 10.0),
-            content: Container(
-              width: 300.0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(30.0))),
+              contentPadding: EdgeInsets.only(top: 10.0),
+              content: StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                // ----------
+                return Container(
+                  width: 300.0,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Text(
-                        "Scegli il paese:",
-                        style: TextStyle(fontSize: 20.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text(
+                            "Scegli il paese:",
+                            style: TextStyle(fontSize: 20.0),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5.0,
+                      ),
+                      Divider(
+                        color: Colors.grey,
+                        height: 4.0,
+                      ),
+                      new Expanded(
+                          child: ListView.builder(
+                              itemBuilder: (context, index) => Container(
+                                    color: _selectedIndex != null &&
+                                            _selectedIndex == index
+                                        ? Colors.orange[100]
+                                        : Colors.white,
+                                    child: ListTile(
+                                        title: Text(countryData[index].country),
+                                        onTap: () {
+                                          setState(() {
+                                            _onSelected(index);
+                                            temp = countryData[index].country;
+                                            state = countryData[index];
+
+                                            print(countryData[index].country);
+                                            print(countryData[index]
+                                                .countryInfo
+                                                .flag);
+                                          });
+                                        }),
+                                  ))),
+                      InkWell(
+                        child: Container(
+                          padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
+                          decoration: BoxDecoration(
+                            color: Color.fromRGBO(252, 148, 46, 1),
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(30.0),
+                                bottomRight: Radius.circular(30.0)),
+                          ),
+                          child: Text(
+                            "Prosegui",
+                            style: TextStyle(color: Colors.white),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        onTap: () {
+                          print(temp);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Terza(country: state)),
+                          );
+                        },
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 5.0,
-                  ),
-                  Divider(
-                    color: Colors.grey,
-                    height: 4.0,
-                  ),
-                  new Expanded(
-                      child: ListView.builder(
-                          itemCount: 15,
-                          itemBuilder: (BuildContext context, int index) {
-                            return ListTile(
-                              title: Text('Gujarat, India'),
-                            );
-                          })),
-                  InkWell(
-                    child: Container(
-                      padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
-                      decoration: BoxDecoration(
-                        color: Color.fromRGBO(252, 148, 46, 1),
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(30.0),
-                            bottomRight: Radius.circular(30.0)),
-                      ),
-                      child: Text(
-                        "Prosegui",
-                        style: TextStyle(color: Colors.white),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
+                );
+              }));
         });
   }
 
