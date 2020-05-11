@@ -10,6 +10,9 @@ class CountryData {
   var active;
   var critical;
   var tests;
+  var casesPerOneMillion;
+  var deathsPerOneMillion;
+  var testsPerOneMillion;
   CountryInfo countryInfo;
 
   CountryData(
@@ -24,7 +27,10 @@ class CountryData {
       this.recovered,
       this.active,
       this.critical,
-      this.tests});
+      this.tests,
+      this.casesPerOneMillion,
+      this.deathsPerOneMillion,
+      this.testsPerOneMillion});
 
   factory CountryData.fromJson(Map<String, dynamic> json) {
     return CountryData(
@@ -39,6 +45,9 @@ class CountryData {
         active: json['active'],
         critical: json['critical'],
         tests: json['tests'],
+        casesPerOneMillion: json['casesPerOneMillion'],
+        deathsPerOneMillion: json['deathsPerOneMillion'],
+        testsPerOneMillion: json['testsPerOneMillion'],
         countryInfo: CountryInfo.fromJson(json['countryInfo']));
   }
 }

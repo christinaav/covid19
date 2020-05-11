@@ -21,17 +21,8 @@ class _Terza extends State<Terza> {
       appBar: PreferredSize(
           child: AppBar(
             elevation: 0.0,
-            backgroundColor: Color.fromRGBO(23, 163, 152, 1),
+            backgroundColor: Color.fromRGBO(26, 103, 76, 1),
             title: Text(''),
-            // actions: <Widget>[
-            //   IconButton(
-            //     icon: Icon(
-            //       Icons.search,
-            //       color: Colors.white,
-            //     ),
-            //     onPressed: null,
-            //   ),
-            // ],
           ),
           preferredSize: Size.fromHeight(40.0)),
       body: bodyWidget(context),
@@ -40,12 +31,12 @@ class _Terza extends State<Terza> {
 
   // -------------------------------------------------- body widget-----------------------------------------
   bodyWidget(BuildContext context) => Container(
-      color: Color.fromRGBO(23, 163, 152, 1),
+      color: Color.fromRGBO(26, 103, 76, 1),
       child: Column(
         children: <Widget>[
           // --------------------------------------------------------primo container--------------------------------------------------
           Container(
-              color: Color.fromRGBO(23, 163, 152, 1),
+              color: Color.fromRGBO(26, 103, 76, 1),
               height: MediaQuery.of(context).size.height / 7,
               width: MediaQuery.of(context).size.width,
               child: Column(
@@ -65,21 +56,21 @@ class _Terza extends State<Terza> {
                           ),
                           Text(widget.country.country.toUpperCase(),
                               style: TextStyle(
-                                fontSize: 30,
-                                color: Colors.black,
+                                fontSize: 28,
+                                color: Color.fromRGBO(245, 245, 249, 1),
                                 fontWeight: FontWeight.w500,
                               )),
                         ]),
                     Text(widget.country.cases.toString(),
                         style: TextStyle(
                           fontSize: 22,
-                          color: Colors.black,
+                          color: Color.fromRGBO(245, 245, 249, 1),
                         )),
                     Text(
                       widget.country.continent,
                       style: TextStyle(
                         fontSize: 20,
-                        color: Colors.black,
+                        color: Color.fromRGBO(245, 245, 249, 1),
                       ),
                     )
                   ])),
@@ -91,8 +82,9 @@ class _Terza extends State<Terza> {
                 (MediaQuery.of(context).size.height / 3.99),
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(35)),
-                color: Colors.white),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(35)),
+              color: Color.fromRGBO(245, 245, 249, 1),
+            ),
             padding: const EdgeInsets.only(left: 3.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -106,13 +98,15 @@ class _Terza extends State<Terza> {
                         "Today Cases",
                         widget.country.todayCases.toString(),
                         context,
-                        Color(0xFF475c78),
+                        // Color(0xFF475c78),
+                        Color.fromRGBO(249, 171, 110, 1),
                         "assets/sick.png"),
                     colorCard(
                         "Today Deaths",
                         widget.country.todayDeaths.toString(),
                         context,
-                        Color(0xFFff3f5e),
+                        // Color(0xFFff3f5e),
+                        Color.fromRGBO(247, 146, 86, 1),
                         "assets/patient.png"),
                   ],
                 ),
@@ -122,10 +116,18 @@ class _Terza extends State<Terza> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    colorCard("Recovered ", widget.country.recovered.toString(),
-                        context, Color(0xFFab6ca2), "assets/girl.png"),
-                    colorCard("Deaths", widget.country.deaths.toString(),
-                        context, Color(0xFFda787f), "assets/grave.png"),
+                    colorCard(
+                        "Recovered ",
+                        widget.country.recovered.toString(),
+                        context,
+                        Color.fromRGBO(166, 52, 70, 1),
+                        "assets/girl.png"),
+                    colorCard(
+                        "Deaths",
+                        widget.country.deaths.toString(),
+                        context,
+                        Color.fromRGBO(193, 102, 117, 1),
+                        "assets/grave.png"),
                   ],
                 ),
                 SizedBox(
@@ -144,29 +146,29 @@ class _Terza extends State<Terza> {
                                 "Active Cases",
                                 widget.country.active.toString(),
                                 context,
-                                Color(0xFFda787f)),
+                                Color.fromRGBO(69, 133, 108, 1)),
                             switchCard(
                                 "Critical Cases",
                                 widget.country.critical.toString(),
                                 context,
-                                Color(0xFFda487e)),
+                                Color.fromRGBO(119, 179, 157, 1)),
                             switchCard("Tests", widget.country.tests.toString(),
-                                context, Color(0xFFda187e)),
+                                context, Color.fromRGBO(69, 133, 108, 1)),
                             switchCard(
                                 "Cases perOneMillion",
-                                widget.country.tests.toString(),
+                                widget.country.casesPerOneMillion.toString(),
                                 context,
-                                Color(0xFFda187e)),
+                                Color.fromRGBO(26, 103, 76, 1)),
                             switchCard(
                                 "Deaths perOneMillion",
-                                widget.country.tests.toString(),
+                                widget.country.deathsPerOneMillion.toString(),
                                 context,
-                                Color(0xFFda187e)),
+                                Color.fromRGBO(102, 164, 140, 1)),
                             switchCard(
                                 "Tests perOneMillion",
-                                widget.country.tests.toString(),
+                                widget.country.testsPerOneMillion.toString(),
                                 context,
-                                Color(0xFFda187e)),
+                                Color.fromRGBO(69, 133, 108, 1)),
                           ],
                         ),
                       );

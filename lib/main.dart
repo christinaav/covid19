@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:covid19/data.dart';
+import 'package:covid19/globalData.dart';
 import 'package:flutter/foundation.dart';
 import 'countryData.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,6 +10,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:undraw/undraw.dart';
 import 'package:http/http.dart' as http;
 
+import 'global.dart';
+
+// ---------------------------------------------------single country url--------------------------
 const baseUrl = "https://corona.lmao.ninja/v2/countries/";
 
 class API {
@@ -17,8 +21,6 @@ class API {
     return http.get(url);
   }
 }
-
-// ------------------------------------------------
 
 class MyApp extends StatelessWidget {
   @override
@@ -44,8 +46,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePage extends State<MyHomePage> {
   int _selectedIndex = 0;
   var countryData = List<CountryData>();
-  var state, temp;
+  var globalData = List<GlobalData>();
+  var state, temp, global;
 
+// -------------------------------------------single state list--------------------------
   _getCountry() {
     API.getCountry().then((response) {
       setState(() {
@@ -54,6 +58,8 @@ class _MyHomePage extends State<MyHomePage> {
       });
     });
   }
+
+// ------------------------------------------global list-----------------------------------
 
   initState() {
     super.initState();
@@ -114,11 +120,6 @@ class _MyHomePage extends State<MyHomePage> {
                                             _onSelected(index);
                                             temp = countryData[index].country;
                                             state = countryData[index];
-
-                                            print(countryData[index].country);
-                                            print(countryData[index]
-                                                .countryInfo
-                                                .flag);
                                           });
                                         }),
                                   ))),
@@ -126,7 +127,7 @@ class _MyHomePage extends State<MyHomePage> {
                         child: Container(
                           padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                           decoration: BoxDecoration(
-                            color: Color.fromRGBO(252, 148, 46, 1),
+                            color: Color.fromRGBO(247, 146, 86, 1),
                             borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(30.0),
                                 bottomRight: Radius.circular(30.0)),
@@ -164,8 +165,8 @@ class _MyHomePage extends State<MyHomePage> {
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
           colors: [
-            Color.fromRGBO(14, 31, 154, 1.75),
-            Color.fromRGBO(75, 94, 179, 1)
+            Color.fromRGBO(26, 103, 76, 1.75),
+            Color.fromRGBO(26, 103, 76, 1)
           ],
         ),
       ),
@@ -175,7 +176,7 @@ class _MyHomePage extends State<MyHomePage> {
           children: <Widget>[
             UnDraw(
               illustration: UnDrawIllustration.medicine,
-              color: Color.fromRGBO(252, 148, 46, 1),
+              color: Color.fromRGBO(247, 146, 86, 1),
               height: 180,
               width: 180,
             ),
@@ -212,6 +213,25 @@ class _MyHomePage extends State<MyHomePage> {
                 buttonColor: Colors.black,
               ),
               width: 300,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              child: RoundedButtonWithIcon(
+                onPressed: () {
+                  {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Global()),
+                    );
+                  }
+                },
+                icon: Icons.language,
+                title: " Guarda i dati globali",
+                buttonColor: Colors.black,
+              ),
+              width: 200,
             ),
           ],
         ),
