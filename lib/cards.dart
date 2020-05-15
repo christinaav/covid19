@@ -105,16 +105,13 @@ Widget cardSwip(String image, String text, String number) {
         ),
         SizedBox(height: 15),
         Text(text,
-        style: TextStyle(
-              fontSize: 24,
-              color: Color.fromRGBO(26, 103, 76, 1),
-            )),
+            style: TextStyle(
+                fontSize: 24, color: Color.fromRGBO(247, 146, 86, 1))),
         Text(number,
             style: TextStyle(
               fontSize: 26,
-              color: Color.fromRGBO(247, 146, 86, 1),
-                          fontWeight: FontWeight.bold,
-
+              color: Color.fromRGBO(26, 103, 76, 1),
+              fontWeight: FontWeight.w500,
             )),
       ],
     ),
@@ -122,8 +119,12 @@ Widget cardSwip(String image, String text, String number) {
 }
 
 // ------------------------global card------------------------
-Widget globalCard(String text, String fields, BuildContext context, Color color,
-   ) {
+Widget globalCard(
+  String text,
+  String fields,
+  BuildContext context,
+  Color color,
+) {
   final _media = MediaQuery.of(context).size;
   return Container(
     margin: EdgeInsets.only(top: 9, right: 9),
@@ -158,7 +159,6 @@ Widget globalCard(String text, String fields, BuildContext context, Color color,
           SizedBox(
             width: 3,
           ),
-     
         ]),
       ],
     ),
